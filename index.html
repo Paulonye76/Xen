@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="description" content="AirXender – AirDrop-like file sharing for every device. Peer-to-peer, no internet required after connection." />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📡</text></svg>" />
+  <title>AirXender – Share like AirDrop</title>
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">📡</span>
+        <h1>AirXender</h1>
+      </div>
+      <p class="tagline">AirDrop for every device</p>
+    </header>
+
+    <!-- Connection Status -->
+    <section class="status-card" id="statusCard">
+      <div class="status-row">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Connecting…</span>
+      </div>
+      <div class="my-id">
+        <span>Your ID:</span>
+        <code id="myPeerId">—</code>
+        <button class="btn-icon" id="copyIdBtn" title="Copy ID">📋</button>
+      </div>
+    </section>
+
+    <!-- Room / Pairing -->
+    <section class="card">
+      <h2>Join or Create Room</h2>
+      <p class="hint">Both devices must be in the same room to see each other.</p>
+      <div class="room-controls">
+        <input type="text" id="roomInput" placeholder="Enter room code (e.g. abc123)" maxlength="12" autocomplete="off" />
+        <button class="btn primary" id="joinRoomBtn">Join</button>
+      </div>
+      <button class="btn secondary full" id="createRoomBtn">Create New Room</button>
+      <div id="currentRoom" class="current-room hidden">
+        Room: <strong id="roomCode"></strong>
+        <button class="btn-icon" id="copyRoomBtn" title="Copy room code">📋</button>
+      </div>
+    </section>
+
+    <!-- Peers -->
+    <section class="card">
+      <h2>Nearby Devices</h2>
+      <div id="peersList" class="peers-list">
+        <p class="empty">Join a room to discover devices…</p>
+      </div>
+    </section>
+
+    <!-- File Drop Zone -->
+    <section class="card drop-zone" id="dropZone">
+      <div class="drop-content">
+        <div class="drop-icon">📁</div>
+        <p>Drag & drop files here</p>
+        <p class="or">or</p>
+        <label class="btn primary">
+          Choose Files
+          <input type="file" id="fileInput" multiple hidden />
+        </label>
+      </div>
+    </section>
+
+    <!-- Transfers -->
+    <section class="card" id="transfersSection">
+      <h2>Transfers</h2>
+      <div id="transfersList" class="transfers-list">
+        <p class="empty">No active transfers</p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Files travel peer-to-peer. Nothing is stored on any server.</p>
+      <p class="small">Works best on the same Wi-Fi network</p>
+    </footer>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
